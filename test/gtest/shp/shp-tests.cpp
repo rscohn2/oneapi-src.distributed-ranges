@@ -5,20 +5,11 @@
 #include "shp-tests.hpp"
 
 // Instantiate SHP-specific configurations for common tests
-template <typename T> struct CommonTestConfig {
-  using DV = shp::distributed_vector<T>;
-  using DVA = shp::distributed_vector<T, shp::device_allocator<int>>;
-  using V = std::vector<T>;
-  static auto policy() { return shp::par_unseq; }
-
-  // Need shp::iota
-  // Why doesn't rng::iota work?
-  static auto iota(auto &&r, auto val) {
-    return std::iota(r.begin(), r.end(), val);
-  }
-};
-using Common_Types =
-    ::testing::Types<CommonTestConfig<int>, CommonTestConfig<float>>;
+using Common_Types = ::testing::Types<
+    shp::distributed_vector<int, shp::device_allocator<int>>,
+    shp::distributed_vector<float, shp::device_allocator<float>>,
+    shp::distributed_vector<int, shp::shared_allocator<int>>,
+    shp::distributed_vector<float, shp::shared_allocator<float>>>;
 
 INSTANTIATE_TYPED_TEST_SUITE_P(MHP, DistributedVector, Common_Types);
 INSTANTIATE_TYPED_TEST_SUITE_P(SHP, Drop, Common_Types);

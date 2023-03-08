@@ -93,6 +93,12 @@ std::vector<T> generate_random(std::size_t n, std::size_t bound = 25) {
   return v;
 }
 
+template <class DV> using LocalVec = std::vector<typename DV::value_type>;
+
+template <typename DV> inline auto default_policy() {
+  return default_policy_of_allocator<typename DV::allocator_type>();
+};
+
 #include "common/distributed_vector.hpp"
 #include "common/drop.hpp"
 #include "common/for_each.hpp"

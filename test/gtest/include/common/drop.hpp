@@ -10,18 +10,18 @@ public:
 TYPED_TEST_SUITE_P(Drop);
 
 TYPED_TEST_P(Drop, Basic) {
-  using DV = typename TypeParam::DV;
-  using V = typename TypeParam::V;
+  using DV = TypeParam;
+  using V = LocalVec<DV>;
 
   std::size_t n = 10;
 
   auto neg = [](auto &v) { v = -v; };
   DV dv_a(n);
-  TypeParam::iota(dv_a, 100);
+  iota(dv_a, 100);
   auto d = rng::views::drop(dv_a, 2);
   EXPECT_TRUE(check_segments(d));
   barrier();
-  xhp::for_each(TypeParam::policy(), d, neg);
+  xhp::for_each(default_policy<DV>(), d, neg);
 
   if (comm_rank == 0) {
     V a(n), a_in(n);

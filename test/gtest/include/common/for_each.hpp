@@ -10,15 +10,15 @@ public:
 TYPED_TEST_SUITE_P(ForEach);
 
 TYPED_TEST_P(ForEach, Basic) {
-  using DV = typename TypeParam::DV;
-  using V = typename TypeParam::V;
+  using DV = TypeParam;
+  using V = LocalVec<DV>;
 
   std::size_t n = 10;
 
   auto neg = [](auto &v) { v = -v; };
   DV dv_a(n);
-  TypeParam::iota(dv_a, 100);
-  xhp::for_each(TypeParam::policy(), dv_a, neg);
+  iota(dv_a, 100);
+  xhp::for_each(default_policy<DV>(), dv_a, neg);
 
   if (comm_rank == 0) {
     V a(n), a_in(n);

@@ -10,7 +10,7 @@ public:
 TYPED_TEST_SUITE_P(DistributedVector);
 
 TYPED_TEST_P(DistributedVector, Requirements) {
-  using DV = typename TypeParam::DV;
+  using DV = TypeParam;
   using DVI = typename DV::iterator;
   DV dv(10);
 
@@ -28,14 +28,11 @@ TYPED_TEST_P(DistributedVector, Requirements) {
 }
 
 TYPED_TEST_P(DistributedVector, Constructors) {
-  using DV = typename TypeParam::DV;
-  using DVA = typename TypeParam::DVA;
-  using V = typename TypeParam::V;
+  using DV = TypeParam;
+  using V = LocalVec<TypeParam>;
 
   DV a1(10);
-  DVA a2(10);
-  TypeParam::iota(a1, 10);
-  TypeParam::iota(a2, 10);
+  iota(a1, 10);
 
   DV a3(10, 2);
   if (comm_rank == 0) {

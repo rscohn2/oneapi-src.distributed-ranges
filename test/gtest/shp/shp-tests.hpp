@@ -16,4 +16,10 @@ namespace xhp = shp;
 inline void barrier() {}
 inline void fence() {}
 
+auto iota(auto &&r, auto val) { return std::iota(r.begin(), r.end(), val); }
+
+template <typename T> auto default_policy_of_allocator() {
+  return shp::par_unseq;
+};
+
 #include "common-tests.hpp"

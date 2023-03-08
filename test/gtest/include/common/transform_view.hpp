@@ -10,14 +10,14 @@ public:
 TYPED_TEST_SUITE_P(TransformView);
 
 TYPED_TEST_P(TransformView, Basic) {
-  using DV = typename TypeParam::DV;
-  using V = typename TypeParam::V;
+  using DV = TypeParam;
+  using V = LocalVec<DV>;
 
   std::size_t n = 10;
 
   auto neg = [](auto v) { return -v; };
   DV dv_a(n);
-  TypeParam::iota(dv_a, 100);
+  iota(dv_a, 100);
   auto dv_t = lib::views::transform(dv_a, neg);
   EXPECT_TRUE(check_segments(dv_t));
   barrier();
