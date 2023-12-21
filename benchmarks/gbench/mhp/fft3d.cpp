@@ -235,6 +235,9 @@ static void FFT3D_DR(benchmark::State &state) {
   std::size_t x = 512;
   std::size_t y = 512;
   std::size_t z = 512;
+  if (check_results) {
+    x = y = z = 8;
+  }
 
   distributed_fft<double> fft3d(x, y, z);
 
