@@ -116,9 +116,10 @@ void transpose(MR1 &&src, MR2 &&dst) {
     // it. Try to reuse its space for the receive buffer
     __detail::tmp_buffer<T> receive_buffer(sub_tiles_size, src_tile);
     buffer = receive_buffer.data();
+#if 0
     default_comm().alltoall(send_buffer.data(), receive_buffer.data(),
                             sub_tile_size);
-
+#endif
     start = {0, 0};
     end = {dst_tile.mdspan().extent(0), 0};
     for (std::size_t i = 0; i < src.grid().extent(0); i++) {
