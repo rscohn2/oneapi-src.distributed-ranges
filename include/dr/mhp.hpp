@@ -41,6 +41,7 @@
 #include <dr/concepts/concepts.hpp>
 
 #include <dr/detail/logger.hpp>
+#include <dr/detail/itt.hpp>
 #include <dr/detail/view_detectors.hpp>
 #include <dr/detail/segments_tools.hpp>
 #include <dr/detail/iterator_adaptor.hpp>
