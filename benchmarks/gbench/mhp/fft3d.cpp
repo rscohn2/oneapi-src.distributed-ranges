@@ -128,6 +128,7 @@ public:
     oneapi::mkl::dft::compute_forward(*fft_2d_plan_, i_slab_.data_handle())
         .wait();
     dr::mhp::transpose(i_mat_, o_mat_);
+
     oneapi::mkl::dft::compute_forward(*fft_1d_plan_, o_slab_.data_handle())
         .wait();
 
@@ -232,6 +233,9 @@ int main(int argc, char *argv[]) {
 #else
 
 static void FFT3D_DR(benchmark::State &state) {
+  // fft requires usm shared allocation
+  assert(dr::mhp::use_sycl());
+  
   std::size_t x = 768;
   std::size_t y = x;
   std::size_t z = x;
