@@ -23,11 +23,14 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   endif()
   include(ExternalProject)
 
+  option(ENABLE_ITT "Build with ITT" OFF)
   option(DISABLED_TESTS "Run disabled tests" OFF)
   option(ENABLE_SYCL "Build sycl shp examples" OFF)
   option(ENABLE_CUDA "Build for cuda" OFF)
   option(ENABLE_FORMAT "Build with format library" ON)
   option(GCC_TOOLCHAIN, "GCC toolchain to be used by clang-based compilers" OFF)
+
+  set(ITT_PREFIX "" CACHE PATH "Prefix for ITT SDK")
 
   #
   # C++: generic configuration
@@ -49,7 +52,7 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   endif()
 
   if(ENABLE_SYCL)
-    add_compile_options(-fsycl)
+    SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsycl" )
     add_link_options(-fsycl)
     if(ENABLE_CUDA)
       add_compile_options(-fsycl-targets=nvptx64-nvidia-cuda
@@ -89,7 +92,7 @@ if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
   # set(CMAKE_C_FLAGS_RELEASE "-O3 -DNDEBUG") set(CMAKE_CXX_FLAGS_RELEASE "-O3
   # -DNDEBUG")
   set(CMAKE_C_FLAGS_RELEASE "-O3 -march=native")
-  set(CMAKE_CXX_FLAGS_RELEASE "-O3 -march=native")
+  set(CMAKE_CXX_FLAGS_RELEASE "-O0 -g -march=native")
 
   #
   # Common dependencies for examples
